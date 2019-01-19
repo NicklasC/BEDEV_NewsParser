@@ -1,0 +1,11 @@
+The following database tables should exist in the defined database xxxxx (To be determined)
+Tabell 1: DataSource
+        ID INT (TableKey)
+        Name, Varchar (30)
+        StartURL VarChar (100)
+
+Tabell 2: ScanData
+ID INT (är TableKey)
+DataSourceID
+SourceText VarChar(300)
+SourceLink VarChar(300) (edited) 
