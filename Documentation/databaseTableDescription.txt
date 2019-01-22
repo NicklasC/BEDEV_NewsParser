@@ -9,3 +9,4 @@ ID INT (är TableKey)
 DataSourceID
 SourceText VarChar(300)
 SourceLink VarChar(300) (edited) 
+Date DateTime
