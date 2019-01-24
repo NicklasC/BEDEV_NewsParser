@@ -1,0 +1,9 @@
+# MySQL DB properties
+# Replace username with your local
+# Replace password with your local
+jdbc.url=jdbc:mysql://localhost/
+jdbc.ssl=?useSSL=false
+jdbc.multiQuery=&allowMultiQueries=true
+jdbc.timezone=&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=CET
+jdbc.username=username
+jdbc.password=password
