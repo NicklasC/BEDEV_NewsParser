@@ -1,0 +1,20 @@
+Närvarande:
+Mohamad
+Nicklas
+Jonas
+
+Vi diskuterade uppdraget i stort. Började med att titta på GUI skissen och diskutera funktionaliteten. Därefter konstaterade vi att vi identifierat 3 huvudområden, GUI, Databas och Dataskrapningen. Varje område diskuterades mer i detalj. Vi delade sedan upp områdena enligt nedan:
+
+Mohamad GUI
+Nicklas Scraping
+Jonas Databas
+
+Till nästa möte kommer varje "ansvarig" person att fundera igenom sitt område i mer detalj samt skapa stories/tasks. Vi kommer vid nästa möte gå igenom stories, vad de innebör, när de ska definieras som klara och om något ytterligare bör läggas till.
+
+
+Saker vi beslutade:
+Applikationen kommer utvecklas i Swing
+En scan appendar data till databasen, tidigare scans för varje tidning ligger kvar. Tidsstämpel läggs till som fält i databasen.
+Listning av nyheter görs med distinct sqlfråga så vi undviker dublettlistningar.
+Nästa möte är på torsdag 24:e 2100 på Skype.
+
