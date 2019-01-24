@@ -6,6 +6,7 @@ import com.grupp2.utils.QueryUtils;
 
 public class Main {
 
+    // Added booleans to enable/disable others code while developing to make it easier. Disable at some point.
     static boolean runNicklasDevCode = true;
 
     public static void main(String[] args) 
