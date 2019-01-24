@@ -13,13 +13,14 @@ public class Main {
     		throws IOException, ClassNotFoundException, SQLException {
     	
     	QueryUtils dbQuery = new QueryUtils();
-        System.out.println("main started");
-		dbQuery.connect();
-		// Call method to check connection.
-		boolean connectedToDb = dbQuery.checkIfDbConnected(); 
-		if(connectedToDb) {
-			System.out.println("Connected to DB");
-		} else {
+    	System.out.println("main started");
+
+    	dbQuery.connect();
+    	// Call method to check connection.
+    	boolean connectedToDb = dbQuery.checkIfDbConnected(); 
+    	if(connectedToDb) {
+    		System.out.println("Connected to DB");
+    	} else {
 			System.out.println("Not connected to DB");
 		}
 			
