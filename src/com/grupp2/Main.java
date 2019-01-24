@@ -15,17 +15,18 @@ public class Main {
     	QueryUtils dbQuery = new QueryUtils();
     	System.out.println("main started");
 
-	dbQuery.connect();
-	// Call method to check connection.
-	boolean connectedToDb = dbQuery.checkIfDbConnected(); 
-	if(connectedToDb) {
-		System.out.println("Connected to DB");
-	} else {
-		System.out.println("Not connected to DB");
-	}
+    	dbQuery.connect();
+    	// Call method to check connection.
+    	boolean connectedToDb = dbQuery.checkIfDbConnected(); 
+    	if(connectedToDb) {
+    		System.out.println("Connected to DB");
+    	} else {
+			System.out.println("Not connected to DB");
+		}
 			
-	if (runNicklasDevCode) {
-	// Prerequisite: Download and associate project with jsour.org jar (Can be downloaded at https://jsoup.org/download)
-		GetNews.getNewsFromSource("http://www.dn.se");
-	}
+		if (runNicklasDevCode) {
+	        // Prerequisite: Download and associate project with jsour.org jar (Can be downloaded at https://jsoup.org/download)
+			GetNews.getNewsFromSource("http://www.dn.se");
+		}
+    }
 }

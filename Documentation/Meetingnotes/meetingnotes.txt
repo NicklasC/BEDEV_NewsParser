@@ -1,13 +1,13 @@
 Närvarande:
 Mohamad
 Nicklas
-Jonas
+Patrik
 
 Vi diskuterade uppdraget i stort. Började med att titta på GUI skissen och diskutera funktionaliteten. Därefter konstaterade vi att vi identifierat 3 huvudområden, GUI, Databas och Dataskrapningen. Varje område diskuterades mer i detalj. Vi delade sedan upp områdena enligt nedan:
 
 Mohamad GUI
 Nicklas Scraping
-Jonas Databas
+Patrik Databas
 
 Till nästa möte kommer varje "ansvarig" person att fundera igenom sitt område i mer detalj samt skapa stories/tasks. Vi kommer vid nästa möte gå igenom stories, vad de innebör, när de ska definieras som klara och om något ytterligare bör läggas till.
 
