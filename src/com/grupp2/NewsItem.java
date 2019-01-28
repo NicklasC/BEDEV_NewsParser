@@ -1,21 +1,20 @@
 package com.grupp2;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.Date;
 
 public class NewsItem {
-    //TODO: Add a source here. DB id? Text? TBD...
-    private String newsScanDate;
+
+    private Date newsScanDate;
     private String newsText;
     private String newsLink;
 
-    public NewsItem(String newsText, String newsLink) {
-        newsScanDate = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+    public NewsItem(Date newsScanDate, String newsText, String newsLink) {
+        this.newsScanDate = newsScanDate;
         this.newsText = newsText;
         this.newsLink = newsLink;
     }
 
-    public String getNewsScanDate() {
+    public Date getNewsScanDate() {
         return newsScanDate;
     }
 
