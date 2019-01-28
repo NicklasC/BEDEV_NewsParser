@@ -26,7 +26,7 @@ public class Main {
 			
 		if (runNicklasDevCode) {
 	        // Prerequisite: Download and associate project with jsour.org jar (Can be downloaded at https://jsoup.org/download)
-			GetNews.getNewsFromSource("http://www.dn.se");
+			GetNews.getNewsFromDN();
 		}
     }
 }
