@@ -11,7 +11,7 @@ import java.util.Date;
 
 public class GetNews {
     public static ArrayList<NewsItem> getNewsFromDN() throws IOException {
-        Date newsScanDate;
+
         String newsLink;
         String newsText;
 
@@ -28,8 +28,8 @@ public class GetNews {
                 //print(" * a: <%s>  (%s)", link.attr("abs:href"), trim(link.text(), 100));
                 Elements text = link.select("h1");//Filtering out the header part within the link that contains the new title text we want to display (We do not want photographer text)
                 newsText = text.text();
-                newsScanDate = new Date();//Here we set "now" as scandate.
-                newsArrayList.add(new NewsItem(newsScanDate, newsText, newsLink));//adding a new NewsItem object to the newsArrayList containing the collected information.
+
+                newsArrayList.add(new NewsItem(newsText, newsLink));//adding a new NewsItem object to the newsArrayList containing the collected information.
             }
         }
         return newsArrayList;
