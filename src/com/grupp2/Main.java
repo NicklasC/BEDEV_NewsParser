@@ -2,6 +2,8 @@ package com.grupp2;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+
 import com.grupp2.utils.QueryUtils;
 
 public class Main {
@@ -26,7 +28,13 @@ public class Main {
 			
 		if (runNicklasDevCode) {
 	        // Prerequisite: Download and associate project with jsour.org jar (Can be downloaded at https://jsoup.org/download)
-			GetNews.getNewsFromSource("http://www.dn.se");
+
+			// Example usage of GetNews.getNewsFromDN method. GetNews.getNewsFromGP works the same way.
+			ArrayList<NewsItem> newsArrayList=GetNews.getNewsFromDN();
+			for(NewsItem newsItem:newsArrayList){
+				System.out.println(newsItem.getNewsLink());
+				System.out.println(newsItem.getNewsText());
+			}
 		}
     }
 }
