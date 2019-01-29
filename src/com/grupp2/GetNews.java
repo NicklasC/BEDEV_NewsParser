@@ -50,7 +50,7 @@ public class GetNews {
         for (Elements link : newsElementsArrayList) {
             if (link.hasClass("c-teaser__link")) { //If link contains this class, it is a news link we want to return information on
                 newsLink = link.attr("abs:href"); //getting the anchor link
-                print(" * a: <%s>  (%s)", link.attr("abs:href"), trim(link.text(), 100));
+                //print(" * a: <%s>  (%s)", link.attr("abs:href"), trim(link.text(), 100));
                 Elements text = link.select("h2");//Filtering out the header part within the link that contains the new title text we want to display
                 newsText = text.text();
 
@@ -62,7 +62,7 @@ public class GetNews {
 
 
     private static ArrayList<Elements> getAnchorElementsFromSource(String sourceURL) throws IOException {
-        ArrayList<Elements> anchorElementsArrayList = new ArrayList<Elements>();
+        ArrayList<Elements> anchorElementsArrayList = new ArrayList<>();
 
         //print("Fetching %s...", url);
         Document doc = Jsoup.connect(sourceURL).get();
