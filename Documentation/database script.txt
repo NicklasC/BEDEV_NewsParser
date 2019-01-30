@@ -1,0 +1,25 @@
+-- This script is to create your local database
+
+-- Create database
+CREATE DATABASE news;
+
+-- Create datasource table
+use news;
+CREATE TABLE datasource
+(
+id int auto_increment not null,
+name VARCHAR(30) NOT NULL,
+starturl VARCHAR(255) NOT NULL,
+PRIMARY KEY(id)
+);
+
+-- Create scandata table
+use news;
+CREATE TABLE scandata
+(
+sourcetext VARCHAR(255),
+sourcelink VARCHAR(255),
+date DATETIME,
+id int,
+FOREIGN KEY(id) REFERENCES datasource(id)
+);
