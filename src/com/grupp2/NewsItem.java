@@ -4,18 +4,12 @@ import java.util.Date;
 
 public class NewsItem {
 
-    private Date newsScanDate;
     private String newsText;
     private String newsLink;
 
-    public NewsItem(Date newsScanDate, String newsText, String newsLink) {
-        this.newsScanDate = newsScanDate;
+    public NewsItem(String newsText, String newsLink) {
         this.newsText = newsText;
         this.newsLink = newsLink;
-    }
-
-    public Date getNewsScanDate() {
-        return newsScanDate;
     }
 
     public String getNewsText() {
