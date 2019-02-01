@@ -1,7 +1,5 @@
 package com.grupp2;
 
-import java.util.Date;
-
 public class NewsItem {
 
     private String newsText;
