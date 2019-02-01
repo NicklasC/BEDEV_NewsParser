@@ -11,6 +11,9 @@ import java.util.ArrayList;
 public class GetNews {
     public static ArrayList<NewsItem> getNewsFromDN() throws IOException {
 
+        final String sourceName="DN";
+        final String sourceURL="http://www.dn.se";
+
         String newsLink;
         String newsText;
 
@@ -18,7 +21,7 @@ public class GetNews {
         ArrayList<NewsItem> newsArrayList = new ArrayList<>();
 
         // Fetching all anchor elements from source.
-        ArrayList<Elements> newsElementsArrayList = getAnchorElementsFromSource("http://www.dn.se");
+        ArrayList<Elements> newsElementsArrayList = getAnchorElementsFromSource(sourceURL);
 
         // Iterating all achor elements
         for (Elements link : newsElementsArrayList) {
@@ -28,7 +31,7 @@ public class GetNews {
                 Elements text = link.select("h1");//Filtering out the header part within the link that contains the new title text we want to display (We do not want photographer text)
                 newsText = text.text();
 
-                newsArrayList.add(new NewsItem(newsText, newsLink));//adding a new NewsItem object to the newsArrayList containing the collected information.
+                newsArrayList.add(new NewsItem(sourceName, sourceURL,newsText, newsLink));//adding a new NewsItem object to the newsArrayList containing the collected information.
             }
         }
         return newsArrayList;
@@ -36,6 +39,9 @@ public class GetNews {
 
 
     public static ArrayList<NewsItem> getNewsFromGP() throws IOException {
+
+        final String sourceName="GP";
+        final String sourceURL="http://www.gp.se";
 
         String newsLink;
         String newsText;
@@ -54,7 +60,7 @@ public class GetNews {
                 Elements text = link.select("h2");//Filtering out the header part within the link that contains the new title text we want to display
                 newsText = text.text();
 
-                newsArrayList.add(new NewsItem(newsText, newsLink));//adding a new NewsItem object to the newsArrayList containing the collected information.
+                newsArrayList.add(new NewsItem(sourceName,sourceURL,newsText, newsLink));//adding a new NewsItem object to the newsArrayList containing the collected information.
             }
         }
         return newsArrayList;
