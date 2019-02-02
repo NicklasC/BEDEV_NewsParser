@@ -11,9 +11,7 @@ public class Main {
     // Added booleans to enable/disable others code while developing to make it easier. Disable at some point.
     static boolean runNicklasDevCode = true;
     static ArrayList<NewsItem> newsArrayList;
-    static String sourceName;
-    static String sourceUrl;
-
+    
     public static void main(String[] args) 
     		throws IOException, ClassNotFoundException, SQLException {
     	
@@ -34,16 +32,18 @@ public class Main {
 			//GetNews.getNewsFromDN();
 			
 			// Get data from DN
-			sourceName = "DN";
-			sourceUrl = "www.dn.se";
 			newsArrayList=GetNews.getNewsFromDN();
-			QueryUtils.saveNewsInDB(newsArrayList, sourceName, sourceUrl);
+			QueryUtils.saveNewsInDB(newsArrayList);
 			
 			// Get data from GP
-			sourceName = "GP";
-			sourceUrl = "www.gp.se";
 			newsArrayList=GetNews.getNewsFromGP();
-			QueryUtils.saveNewsInDB(newsArrayList, sourceName, sourceUrl);
+			QueryUtils.saveNewsInDB(newsArrayList);
+			
+			// Select all data order by date
+			QueryUtils.getDataFromDB();
+			
+			// Delete all content in scandata table
+			//QueryUtils.deleteContentDB();
 			
 			/*
 			for(NewsItem newsItem:newsArrayList){
