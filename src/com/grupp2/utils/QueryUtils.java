@@ -58,7 +58,7 @@ public class QueryUtils {
 				preparedStatement.execute();
 			}
 		} finally {
-			preparedStatement.close();
+			closePrefStatment();
 			newsArrayList.clear();
 		}
 	}
@@ -71,7 +71,7 @@ public class QueryUtils {
 			preparedStatement = connection.prepareStatement(database+deleteSqlQuery);
 			preparedStatement.execute();
 		} finally {
-			preparedStatement.close();
+			closePrefStatment();
 		}
 	}
 	
@@ -89,7 +89,11 @@ public class QueryUtils {
 			
 			
 		} finally {
-			preparedStatement.close();
+			closePrefStatment();
 		}
+	}
+
+	private static void closePrefStatment() throws SQLException{
+		preparedStatement.close();
 	}
 }
