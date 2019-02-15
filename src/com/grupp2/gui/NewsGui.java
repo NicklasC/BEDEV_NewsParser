@@ -3,10 +3,10 @@ package com.grupp2.gui;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
 import com.grupp2.GetNews;
@@ -20,9 +20,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Vector;
@@ -30,8 +30,6 @@ import java.util.Vector;
 public class NewsGui {
 
 	public JFrame frame;
-	static Connection connection = null;
-	static PreparedStatement preparedStatement = null;
 	private JTable table;
 	static ArrayList<NewsItem> newsArrayList;
 
@@ -59,12 +57,39 @@ public class NewsGui {
 		frame.setBounds(400, 100, 604, 428);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		frame.addWindowListener(new WindowAdapter() {
+			@Override
+		public void windowClosing(WindowEvent e) {
+				try {
+					if(QueryUtils.checkIfDbConnected()) {
+						QueryUtils.closeConnection(); // Close db connection when close window
+					}
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null,
+						    e1.getMessage());
+				}
+				System.exit(0);
+			}
+		}); 
 
 		JButton update_all_button = new JButton("Update All");
 		update_all_button.setForeground(Color.blue);
 		update_all_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-
+				
+				try {
+					newsArrayList=GetNews.getNewsFromDN();
+					if (QueryUtils.checkIfDbConnected()) {
+						QueryUtils.saveNewsInDB(newsArrayList);
+					}
+					newsArrayList=GetNews.getNewsFromGP();
+					if (QueryUtils.checkIfDbConnected()) {
+						QueryUtils.saveNewsInDB(newsArrayList);
+					}
+					// call method to show data in JTAble
+				} catch (IOException | SQLException | ClassNotFoundException e) {
+					e.printStackTrace();
+				}
 			}
 		});
 
@@ -75,44 +100,15 @@ public class NewsGui {
 		update_dn_button.setForeground(Color.blue);
 		update_dn_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-				Vector cols = new Vector();
-				cols.addElement("Source name");
-				cols.addElement("News header");
-				cols.addElement("News link");
-				
-				Vector data = new Vector();
-				String database = "use news;";
-				String insertSqlQuery = " INSERT INTO datasource (name, starturl) "
-						+ "SELECT * FROM (SELECT ?, ?) AS tmp " + "WHERE NOT EXISTS ( "
-						+ "    SELECT name FROM datasource WHERE name = ? " + ") LIMIT 1;" + "insert into scandata "
-						+ "(id, sourcetext, sourcelink, date) "
-						+ "values ((select id from datasource where name = ?), ?, ?, now());";
-
 				try {
-					preparedStatement = connection.prepareStatement(database + insertSqlQuery);
-					for (NewsItem newsItem : newsArrayList) {
-						Vector login = new Vector();
-						preparedStatement.setString(1, newsItem.getSourceName());
-						preparedStatement.setString(2, newsItem.getSourceName());
-						preparedStatement.setString(3, newsItem.getNewsLink());
-						preparedStatement.execute();
-						login.add(preparedStatement);
+					newsArrayList=GetNews.getNewsFromDN();
+					if (QueryUtils.checkIfDbConnected()) {
+						QueryUtils.saveNewsInDB(newsArrayList);
 					}
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
+					// call method to show data in JTAble
+				} catch (IOException | ClassNotFoundException | SQLException e1) {
 					e1.printStackTrace();
-				} finally {
-					try {
-						preparedStatement.close();
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					table.setModel(new DefaultTableModel(data, cols));
-					newsArrayList.clear();
 				}
-
 			}
 		});
 		update_dn_button.setBounds(122, 100, 106, 60);
@@ -121,9 +117,16 @@ public class NewsGui {
 		JButton update_gp_button = new JButton("Update GP");
 		update_gp_button.setForeground(Color.blue);
 		update_gp_button.addActionListener(new ActionListener() {
-
 			public void actionPerformed(ActionEvent e) {
-
+				try {
+					newsArrayList=GetNews.getNewsFromGP();
+					if (QueryUtils.checkIfDbConnected()) {
+						QueryUtils.saveNewsInDB(newsArrayList);
+					}
+					// call method to show data in JTAble
+				} catch (IOException | ClassNotFoundException | SQLException e1) {
+					e1.printStackTrace();
+				}
 			}
 		});
 		update_gp_button.setBounds(222, 100, 106, 60);
@@ -133,7 +136,13 @@ public class NewsGui {
 		delete_all_button.setForeground(Color.blue);
 		delete_all_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				try {
+					if (QueryUtils.checkIfDbConnected()) {
+						QueryUtils.deleteContentDB();
+					}
+				} catch (SQLException | ClassNotFoundException | IOException e1) {
+					e1.printStackTrace();
+				}
 			}
 		});
 		delete_all_button.setBounds(322, 100, 106, 60);
@@ -160,7 +169,6 @@ public class NewsGui {
 		titlePanel.add(title);
 		titlePanel.setBounds(30, 50, 120, 35);
 		frame.getContentPane().add(titlePanel);
-
 	}
 
 	public static void main(String[] args) {
@@ -169,6 +177,7 @@ public class NewsGui {
 				try {
 					NewsGui window = new NewsGui();
 					window.frame.setVisible(true);
+					QueryUtils.connect(); //Connect to MySQL db
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
