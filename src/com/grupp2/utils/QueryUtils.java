@@ -6,10 +6,11 @@ import java.util.ArrayList;
 
 import com.grupp2.NewsItem;
 import com.grupp2.connection.ConnectMySQL;
+import com.mysql.cj.protocol.Resultset;
 
 public class QueryUtils {
 	static Connection connection = null;
-	//static ResultSet resultSet = null;
+	static ResultSet resultSet = null;
 	static Statement statement = null;
 	static PreparedStatement preparedStatement = null;
 	
@@ -76,24 +77,14 @@ public class QueryUtils {
 	}
 	
 	// Select data from databas to view
-	public static void getDataFromDB() throws SQLException {
-		String database = "use news;";
-		String viewSqlQuery = " SELECT name, sourcetext, sourcelink " + 
-				"FROM datasource JOIN scandata USING(id) " +
-				"order by date desc;";
-		try {
-			preparedStatement = connection.prepareStatement(database+viewSqlQuery);
-			preparedStatement.execute();
-			
-			// Save data in som kind of object here to return to GUI presentation
-			
-			
-		} finally {
-			closePrefStatment();
-		}
+	public static ResultSet getDataFromDB(Resultset resultset) throws SQLException {
+		String viewSqlQuery = "SELECT name, sourcetext, sourcelink FROM news.datasource JOIN news.scandata USING(id) order by date desc;";
+			preparedStatement = connection.prepareStatement(viewSqlQuery);
+			resultSet = preparedStatement.executeQuery();
+		return resultSet;
 	}
 
-	private static void closePrefStatment() throws SQLException{
+	public static void closePrefStatment() throws SQLException{
 		preparedStatement.close();
 	}
 }

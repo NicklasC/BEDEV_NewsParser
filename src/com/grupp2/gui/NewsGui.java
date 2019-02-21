@@ -8,10 +8,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-
 import com.grupp2.GetNews;
 import com.grupp2.NewsItem;
 import com.grupp2.utils.QueryUtils;
+import com.mysql.cj.protocol.Resultset;
 
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -23,6 +23,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Vector;
@@ -30,25 +32,15 @@ import java.util.Vector;
 public class NewsGui {
 
 	public JFrame frame;
-	private JTable table;
+	private static DefaultTableModel tableModel = new DefaultTableModel();
+	private JTable resultTable = new JTable(tableModel);
 	static ArrayList<NewsItem> newsArrayList;
+    private static Resultset resultSet;
+    private static ResultSetMetaData resultSetMetaData;
 
 	public NewsGui() throws IOException, SQLException, ClassNotFoundException {
 		initialize();
-		showTable();
 		this.frame.setResizable(false);
-	}
-
-	public void showTable() throws IOException, ClassNotFoundException, SQLException {
-		Vector cols = new Vector();
-		cols.addElement("Source name");
-		cols.addElement("News header");
-		cols.addElement("News link");
-
-		Vector data = new Vector();
-
-		table.setModel(new DefaultTableModel(data, cols));
-
 	}
 
 	private void initialize() {
@@ -86,7 +78,7 @@ public class NewsGui {
 					if (QueryUtils.checkIfDbConnected()) {
 						QueryUtils.saveNewsInDB(newsArrayList);
 					}
-					// call method to show data in JTAble
+					poputateDataInGrid(QueryUtils.getDataFromDB(resultSet));
 				} catch (IOException | SQLException | ClassNotFoundException e) {
 					e.printStackTrace();
 				}
@@ -105,7 +97,7 @@ public class NewsGui {
 					if (QueryUtils.checkIfDbConnected()) {
 						QueryUtils.saveNewsInDB(newsArrayList);
 					}
-					// call method to show data in JTAble
+					poputateDataInGrid(QueryUtils.getDataFromDB(resultSet));
 				} catch (IOException | ClassNotFoundException | SQLException e1) {
 					e1.printStackTrace();
 				}
@@ -123,7 +115,7 @@ public class NewsGui {
 					if (QueryUtils.checkIfDbConnected()) {
 						QueryUtils.saveNewsInDB(newsArrayList);
 					}
-					// call method to show data in JTAble
+					poputateDataInGrid(QueryUtils.getDataFromDB(resultSet));
 				} catch (IOException | ClassNotFoundException | SQLException e1) {
 					e1.printStackTrace();
 				}
@@ -140,6 +132,7 @@ public class NewsGui {
 					if (QueryUtils.checkIfDbConnected()) {
 						QueryUtils.deleteContentDB();
 					}
+					poputateDataInGrid(QueryUtils.getDataFromDB(resultSet));
 				} catch (SQLException | ClassNotFoundException | IOException e1) {
 					e1.printStackTrace();
 				}
@@ -148,18 +141,17 @@ public class NewsGui {
 		delete_all_button.setBounds(322, 100, 106, 60);
 		frame.getContentPane().add(delete_all_button);
 
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(20, 185, 346, 146);
+		JScrollPane scrollPane = new JScrollPane(resultTable);
+		scrollPane.setBounds(20, 185, 550, 180);
 		frame.getContentPane().add(scrollPane);
 
-		table = new JTable();
-		table.addMouseListener(new MouseAdapter() {
+		resultTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 
 			}
 		});
-		scrollPane.setViewportView(table);
+		scrollPane.setViewportView(resultTable);
 
 		JLabel title = new JLabel("News Parser");
 		title.setFont(new Font("Serif", Font.BOLD, 20));
@@ -169,6 +161,24 @@ public class NewsGui {
 		titlePanel.add(title);
 		titlePanel.setBounds(30, 50, 120, 35);
 		frame.getContentPane().add(titlePanel);
+	}
+	
+	public static void poputateDataInGrid(ResultSet resultSet) throws SQLException, ClassNotFoundException, IOException {
+		tableModel.setRowCount(0);
+		tableModel.setColumnCount(0);
+		Vector<Object> row = null;
+		resultSetMetaData = resultSet.getMetaData();
+		int numberOfColumns = resultSetMetaData.getColumnCount();
+		for (int i = 1; i <= numberOfColumns; i++) {
+			tableModel.addColumn(resultSetMetaData.getColumnName(i));
+		}
+		while (resultSet.next()) {
+		       row = new Vector<Object>(numberOfColumns);
+		       for (int i = 1; i <= numberOfColumns; i++) {
+		        row.addElement(resultSet.getObject(i));
+		       }
+		       tableModel.addRow(row);
+		}
 	}
 
 	public static void main(String[] args) {
