@@ -188,6 +188,7 @@ public class NewsGui {
 					NewsGui window = new NewsGui();
 					window.frame.setVisible(true);
 					QueryUtils.connect(); //Connect to MySQL db
+					poputateDataInGrid(QueryUtils.getDataFromDB(resultSet));
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
